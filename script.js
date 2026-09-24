@@ -68,20 +68,34 @@ function chooseRarity() {
 
     for (const rarity of rarities) {
         random -= rarity.weight;
-
         if (random < 0) {
             return rarity;
         }
     }
+    return rarities[rarities.length - 1];
 }
 
 const button = document.getElementById("open-pack-button");
 const result = document.getElementById("rarity-result");
 
-button.addEventListener("click", () => {
-    const rarity = chooseRarity();
-    const randomCard =
-        rarity.messages[Math.floor(Math.random() * rarity.messages.length)];
-    result.textContent = randomCard;
-    result.style.color = rarity.color;
+button.addEventListener("click", function() {
+    result.innerHTML = "";
+
+    for (let i = 0; i < 5; i++) {
+        const rarity = chooseRarity();
+        const cardIndex = Math.floor(Math.random() * rarity.cards.length);
+        const randomCard = rarity.cards[cardIndex];
+
+        const card = document.createElement("div");
+        card.classList.add("card", "card-back");
+        card.textContent = "TC";
+
+        card.addEventListener("click", function() {
+            card.classList.remove("card-back");
+            card.textContent = randomCard;
+            card.style.borderColor = rarity.color;
+        });
+
+        result.appendChild(card);
+    }
 });
