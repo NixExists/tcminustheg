@@ -1,70 +1,51 @@
+const DB_URL = "https://wuljxybhgrwwrfhpllkx.supabase.co";
+const DB_KEY = "sb_publishable_uz9kBfHAR98yY26-HT7n0A_iX5RcUZu";
+
+const db = window.supabase.createClient(
+    DB_URL,
+    DB_KEY
+);
+async function testSupabase() {
+    const { data, error } = await db
+        .from("cards")
+        .select("*");
+
+    console.log("Data:", data);
+    console.log("Error:", error);
+}
+
+testSupabase();
+
 const rarities = [
     { name: "Common",
         weight: 100,
         color: "gray",
-        colorSecondary: "gray",
-        cards: [
-            "Potato",
-            "Default",
-            "Banana",
-            "Anime"
-        ]
+        colorSecondary: "gray"
     },
     { name: "Uncommon",
         weight: 50,
         color: "green",
-        colorSecondary: "green",
-        cards: [
-            "Slime",
-            "Squid",
-            "Apple",
-            "Juice"
-        ]
-
+        colorSecondary: "green"
     },
     { name: "Rare",
         weight: 25,
         color: "blue",
-        colorSecondary: "blue",
-        cards: [
-            "Rocket",
-            "Moon",
-            "Wave",
-            "Fog"
-        ]
+        colorSecondary: "blue"
     },
     { name: "Ultra Rare",
         weight: 10,
         color: "purple",
-        colorSecondary: "purple",
-        cards: [
-            "Lava",
-            "Space",
-            "Nya",
-            "Relic"
-        ]
+        colorSecondary: "purple"
     },
     { name: "Epic",
         weight: 5,
         color: "orange",
-        colorSecondary: "orange",
-        cards: [
-            "Mace",
-            "Creeper",
-            "Alien",
-            "TAW"
-        ]
+        colorSecondary: "orange"
     },
     { name: "Legendary",
         weight: 0.5,
         color: "gold",
-        colorSecondary: "gold",
-        cards: [
-            "Ocul Ovi",
-            "Herta",
-            "Tekkhu",
-            "Gio"
-        ]
+        colorSecondary: "gold"
     }
 ];
 
@@ -84,13 +65,12 @@ function chooseRarity() {
 const button = document.getElementById("open-pack-button");
 const result = document.getElementById("rarity-result");
 
-button.addEventListener("click", function() {
+button.addEventListener("click", async function() {
     result.innerHTML = "";
 
     for (let i = 0; i < 5; i++) {
         const rarity = chooseRarity();
-        const cardIndex = Math.floor(Math.random() * rarity.cards.length);
-        const randomCard = rarity.cards[cardIndex];
+        const randomCard = await getRandomCard(rarity.name);
 
         // Card
         const card = document.createElement("div");
@@ -100,7 +80,7 @@ button.addEventListener("click", function() {
         card.textContent = "TC";
 
         // Reveal card when clicked
-        card.addEventListener("click", function() {
+        card.addEventListener("click", async function() {
             if (!card.classList.contains("card-back")) {
                 return;
             }
@@ -113,7 +93,7 @@ button.addEventListener("click", function() {
                 // Card name
                 const name = document.createElement("div");
                 name.classList.add("card-name");
-                name.textContent = randomCard;
+                name.textContent = randomCard.name;
 
                 // Image placeholder
                 const image = document.createElement("div");
@@ -126,7 +106,7 @@ button.addEventListener("click", function() {
 
                 const description = document.createElement("div");
                 description.classList.add("description-text");
-                description.textContent = "Card description goes here.";
+                description.textContent = randomCard.description;
 
                 // Bottom information
                 const cardInfo = document.createElement("div");
@@ -136,7 +116,7 @@ button.addEventListener("click", function() {
                 rarityText.textContent = rarity.name;
 
                 const collection = document.createElement("span");
-                collection.textContent = "Collection #1";
+                collection.textContent = randomCard.collections.name;
 
                 cardInfo.appendChild(rarityText);
                 cardInfo.appendChild(collection);
@@ -159,3 +139,28 @@ button.addEventListener("click", function() {
         result.appendChild(card);
     }
 });
+async function getRandomCard(rarityName) {
+    const { data, error } = await db
+        .from("cards")
+        .select(`
+        *,
+        collections (
+            name
+        )
+    `)
+        .eq("rarity", rarityName);
+
+    if (error) {
+        console.error("Error getting cards:", error);
+        return null;
+    }
+
+    if (data.length === 0) {
+        console.error(`No cards found for rarity: ${rarityName}`);
+        return null;
+    }
+
+    const randomIndex = Math.floor(Math.random() * data.length);
+
+    return data[randomIndex];
+}
