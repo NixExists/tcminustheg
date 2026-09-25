@@ -2,6 +2,7 @@ const rarities = [
     { name: "Common",
         weight: 100,
         color: "gray",
+        colorSecondary: "gray",
         cards: [
             "Potato",
             "Default",
@@ -12,6 +13,7 @@ const rarities = [
     { name: "Uncommon",
         weight: 50,
         color: "green",
+        colorSecondary: "green",
         cards: [
             "Slime",
             "Squid",
@@ -23,6 +25,7 @@ const rarities = [
     { name: "Rare",
         weight: 25,
         color: "blue",
+        colorSecondary: "blue",
         cards: [
             "Rocket",
             "Moon",
@@ -33,6 +36,7 @@ const rarities = [
     { name: "Ultra Rare",
         weight: 10,
         color: "purple",
+        colorSecondary: "purple",
         cards: [
             "Lava",
             "Space",
@@ -43,6 +47,7 @@ const rarities = [
     { name: "Epic",
         weight: 5,
         color: "orange",
+        colorSecondary: "orange",
         cards: [
             "Mace",
             "Creeper",
@@ -53,6 +58,7 @@ const rarities = [
     { name: "Legendary",
         weight: 0.5,
         color: "gold",
+        colorSecondary: "gold",
         cards: [
             "Ocul Ovi",
             "Herta",
@@ -86,16 +92,70 @@ button.addEventListener("click", function() {
         const cardIndex = Math.floor(Math.random() * rarity.cards.length);
         const randomCard = rarity.cards[cardIndex];
 
+        // Card
         const card = document.createElement("div");
         card.classList.add("card", "card-back");
+
+        // Back of card
         card.textContent = "TC";
 
+        // Reveal card when clicked
         card.addEventListener("click", function() {
-            card.classList.remove("card-back");
-            card.textContent = randomCard;
-            card.style.borderColor = rarity.color;
-        });
+            if (!card.classList.contains("card-back")) {
+                return;
+            }
+            card.classList.add("card-flipping");
+            setTimeout(function() {
+                card.classList.remove("card-back");
+                // Clear the "TC"
+                card.innerHTML = "";
 
+                // Card name
+                const name = document.createElement("div");
+                name.classList.add("card-name");
+                name.textContent = randomCard;
+
+                // Image placeholder
+                const image = document.createElement("div");
+                image.classList.add("card-image");
+                image.textContent = "IMAGE";
+
+                // Description area
+                const descriptionBox = document.createElement("div");
+                descriptionBox.classList.add("card-description");
+
+                const description = document.createElement("div");
+                description.classList.add("description-text");
+                description.textContent = "Card description goes here.";
+
+                // Bottom information
+                const cardInfo = document.createElement("div");
+                cardInfo.classList.add("card-info");
+
+                const rarityText = document.createElement("span");
+                rarityText.textContent = rarity.name;
+
+                const collection = document.createElement("span");
+                collection.textContent = "Collection #1";
+
+                cardInfo.appendChild(rarityText);
+                cardInfo.appendChild(collection);
+
+                descriptionBox.appendChild(description);
+                descriptionBox.appendChild(cardInfo);
+
+                // Put everything into the card
+                card.appendChild(name);
+                card.appendChild(image);
+                card.appendChild(descriptionBox);
+
+                // Rarity colors
+                card.style.setProperty("--rarity-color", rarity.color);
+                card.style.setProperty("--rarity-secondary", rarity.colorSecondary);
+
+                card.classList.remove("card-flipping");
+            }, 300)
+        });
         result.appendChild(card);
     }
 });

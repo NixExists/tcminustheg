@@ -19,19 +19,96 @@ button {
     width: 300px;
     height: 440px;
 
-    border: 4px solid;
+    border: 4px solid var(--rarity-color);
     border-radius: 10px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    --rarity-color: gray;
+    --rarity-secondary: gray;
 
-    font-size: 20px;
-    font-weight: bold;
-    background-color: white;
+    transition: transform 0.3s;
+    transform-style: preserve-3d;
 }
 .card-back {
     background-color: gray;
     color: white;
     border-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 28px;
+    font-weight: bold;
+}
+.card-name {
+    height: 30px;
+
+    background-color: var(--rarity-secondary);
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 8px;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.card-image {
+    height: 220px;
+
+    background-color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 14px;
+    color: gray;
+}
+
+.card-description {
+    height: 190px;
+
+    background-color: color-mix(
+            in srgb,
+            var(--rarity-secondary) 25%,
+            white
+    );
+
+    padding: 6px;
+
+    box-sizing: border-box;
+}
+
+.description-text {
+    height: 165px;
+
+    text-align: left;
+
+    font-size: 15px;
+}
+
+.card-info {
+    display: flex;
+    align-items: center;
+
+    height: 20px;
+    color: color-mix(in srgb, var(--rarity-color) 60%, transparent);
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.card-info span:first-child {
+    text-align: left;
+}
+
+.card-info span:last-child {
+    margin-left: auto;
+    margin-right: 20px;
+}
+.card-flipping {
+    transform: rotateY(90deg);
 }
