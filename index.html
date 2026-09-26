@@ -12,7 +12,26 @@
 <body>
 
 <h1>TC minus the G</h1>
+<div id="auth-container">
 
+    <h2>Account</h2>
+
+    <div id="logged-out">
+        <input id="email" type="email" placeholder="Email">
+        <input id="password" type="password" placeholder="Password">
+
+        <button id="sign-up-button">Sign Up</button>
+        <button id="login-button">Log In</button>
+
+        <p id="auth-message"></p>
+    </div>
+
+    <div id="logged-in" style="display: none;">
+        <p>Logged in as <span id="user-email"></span></p>
+        <button id="logout-button">Log Out</button>
+    </div>
+
+</div>
 <button id="open-pack-button">Open Pack</button>
 
 <div id="rarity-result"></div>

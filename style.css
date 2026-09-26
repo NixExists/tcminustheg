@@ -67,7 +67,12 @@ button {
     font-size: 14px;
     color: gray;
 }
-
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
 .card-description {
     height: 190px;
 

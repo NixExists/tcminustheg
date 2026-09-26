@@ -5,16 +5,87 @@ const db = window.supabase.createClient(
     DB_URL,
     DB_KEY
 );
-async function testSupabase() {
-    const { data, error } = await db
-        .from("cards")
-        .select("*");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
 
-    console.log("Data:", data);
-    console.log("Error:", error);
+const signUpButton = document.getElementById("sign-up-button");
+const loginButton = document.getElementById("login-button");
+const logoutButton = document.getElementById("logout-button");
+
+const authMessage = document.getElementById("auth-message");
+
+const loggedOut = document.getElementById("logged-out");
+const loggedIn = document.getElementById("logged-in");
+const userEmail = document.getElementById("user-email");
+
+signUpButton.addEventListener("click", async function() {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    const { data, error } = await db.auth.signUp({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        authMessage.textContent = error.message;
+        return;
+    }
+
+    authMessage.textContent =
+        "Account created! Check your email to verify your account.";
+});
+
+loginButton.addEventListener("click", async function() {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    const { data, error } = await db.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        authMessage.textContent = error.message;
+        return;
+    }
+
+    authMessage.textContent = "Logged in!";
+});
+
+logoutButton.addEventListener("click", async function() {
+    const { error } = await db.auth.signOut();
+
+    if (error) {
+        console.error(error);
+    }
+});
+
+function updateAuthUI(user) {
+    if (user) {
+        loggedOut.style.display = "none";
+        loggedIn.style.display = "block";
+
+        userEmail.textContent = user.email;
+    } else {
+        loggedOut.style.display = "block";
+        loggedIn.style.display = "none";
+
+        userEmail.textContent = "";
+    }
 }
 
-testSupabase();
+db.auth.onAuthStateChange(function(event, session) {
+    updateAuthUI(session ? session.user : null);
+});
+
+async function checkAuth() {
+    const { data } = await db.auth.getSession();
+
+    updateAuthUI(data.session ? data.session.user : null);
+}
+
+checkAuth();
 
 const rarities = [
     { name: "Common",
@@ -98,7 +169,11 @@ button.addEventListener("click", async function() {
                 // Image placeholder
                 const image = document.createElement("div");
                 image.classList.add("card-image");
-                image.textContent = "IMAGE";
+                const imageElement = document.createElement("img");
+                imageElement.src = randomCard.image_url;
+                imageElement.alt = randomCard.name;
+
+                image.appendChild(imageElement);
 
                 // Description area
                 const descriptionBox = document.createElement("div");
