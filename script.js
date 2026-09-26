@@ -5,6 +5,7 @@ const db = window.supabase.createClient(
     DB_URL,
     DB_KEY
 );
+const usernameInput = document.getElementById("username");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 
@@ -24,7 +25,13 @@ signUpButton.addEventListener("click", async function() {
 
     const { data, error } = await db.auth.signUp({
         email: email,
-        password: password
+        password: password,
+
+        options: {
+            data: {
+                username: usernameInput.value
+            }
+        }
     });
 
     if (error) {
