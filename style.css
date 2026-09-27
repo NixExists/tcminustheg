@@ -117,3 +117,110 @@ button {
 .card-flipping {
     transform: rotateY(90deg);
 }
+#card-submission {
+    width: 400px;
+    margin: 40px auto;
+}
+
+#card-submission-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#card-submission-form input,
+#card-submission-form textarea,
+#card-submission-form select {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+#card-submission-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+#card-submission-form label {
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+#submission-image {
+    padding: 4px;
+}
+
+#submission-message {
+    min-height: 20px;
+}
+
+#admin-moderation {
+    width: 800px;
+    max-width: 90%;
+    margin: 40px auto;
+}
+
+#pending-submissions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.submission-card {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.submission-card img {
+    max-width: 300px;
+    max-height: 300px;
+    display: block;
+    margin: 10px 0;
+}
+
+.submission-card h3 {
+    margin-top: 0;
+}
+
+.submission-card button {
+    margin-right: 10px;
+}
+
+.submission-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-bottom: 40px;
+}
+
+.submission-submitter {
+    font-size: 16px;
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+.submission-preview {
+    cursor: default;
+}
+
+.submission-preview .card-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.submission-controls {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 10px;
+}
+
+.submission-controls button {
+    font-size: 18px;
+    padding: 8px 18px;
+}

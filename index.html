@@ -23,6 +23,9 @@
 
         <button id="sign-up-button">Sign Up</button>
         <button id="login-button">Log In</button>
+        <button id="forgot-password-button" type="button" onclick="sendPasswordReset()">
+            Forgot Password?
+        </button>
 
         <p id="auth-message"></p>
     </div>
@@ -33,9 +36,94 @@
     </div>
 
 </div>
+
+<div id="password-reset" style="display: none;">
+
+    <h3>Reset Password</h3>
+
+    <input
+            id="new-password"
+            type="password"
+            placeholder="New password"
+    >
+
+    <button id="reset-password-button" type="button" onclick="setNewPassword()">
+        Set New Password
+    </button>
+
+    <p id="reset-message"></p>
+
+</div>
+
 <button id="open-pack-button">Open Pack</button>
 
 <div id="rarity-result"></div>
+
+<section id="card-submission">
+
+    <h2>Submit a Card</h2>
+
+    <form id="card-submission-form">
+
+        <label for="submission-name">Card Name</label>
+        <input
+                id="submission-name"
+                type="text"
+                maxlength="30"
+                required
+        >
+
+        <label for="submission-description">Description</label>
+        <textarea
+                id="submission-description"
+                maxlength="300"
+                required
+        ></textarea>
+
+        <label for="submission-rarity">Rarity</label>
+        <select id="submission-rarity" required>
+            <option value="">Select a rarity</option>
+            <option value="Common">Common</option>
+            <option value="Uncommon">Uncommon</option>
+            <option value="Rare">Rare</option>
+            <option value="Ultra Rare">Ultra Rare</option>
+            <option value="Epic">Epic</option>
+            <option value="Legendary">Legendary</option>
+        </select>
+
+        <label for="submission-collection">Collection</label>
+        <input
+                id="submission-collection"
+                type="text"
+                maxlength="30"
+                required
+        >
+
+        <label for="submission-image">Image</label>
+        <input
+                id="submission-image"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                required
+        >
+
+        <p id="submission-message"></p>
+
+        <button type="submit">Submit Card</button>
+
+    </form>
+
+</section>
+
+<section id="admin-moderation" style="display: none;">
+
+    <h2>Card Approval</h2>
+
+    <div id="pending-submissions"></div>
+
+    <p id="moderation-message"></p>
+
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
